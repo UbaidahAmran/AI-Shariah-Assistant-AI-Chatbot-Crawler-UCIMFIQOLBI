@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Rakyat | Bank Pilihan Anda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. GLOBAL RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f4f6f8; color: #333; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+
+        /* --- 2. UTILITY BAR (Top) --- */
+        .top-bar {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            padding: 8px 10%;
+            font-size: 13px;
+            color: #6c757d;
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+        }
+        .top-bar span { cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .top-bar span:hover { color: #005DAA; }
+
+        /* --- 3. NAVIGATION (Sticky) --- */
+        .navbar {
+            background: white;
+            padding: 0 10%;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo { 
+            font-size: 26px; 
+            font-weight: 900; 
+            color: #005DAA; 
+            letter-spacing: -0.5px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .logo span { color: #F7931E; }
+        .nav-links { display: flex; gap: 30px; font-weight: 600; font-size: 15px; color: #004a87; }
+        .nav-links a:hover { color: #F7931E; }
+        
+        .login-btn {
+            background-color: #F7931E;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .login-btn:hover { background-color: #d67d12; }
+
+        /* --- 4. HERO SECTION (Visual Impact) --- */
+        .hero {
+            position: relative;
+            height: 500px;
+            background: url('https://images.unsplash.com/photo-1565514020175-0c2235d818aa?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+        }
+        /* Dark Gradient Overlay for readability */
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(0,93,170,0.9) 0%, rgba(0,93,170,0.6) 50%, rgba(0,0,0,0) 100%);
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 550px; color: white; }
+        .hero h1 { font-size: 48px; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+        .hero p { font-size: 18px; opacity: 0.9; margin-bottom: 30px; line-height: 1.6; }
+        .hero-btn {
+            background: white; color: #005DAA; padding: 15px 35px; border-radius: 50px;
+            font-weight: 700; display: inline-block; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .hero-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+
+        /* --- 5. QUICK SERVICES BAR --- */
+        .quick-services {
+            background: #004a87;
+            padding: 20px 10%;
+            display: flex;
+            justify-content: space-around;
+            color: white;
+            margin-top: -5px;
+        }
+        .qs-item { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+        .qs-icon { font-size: 24px; color: #F7931E; }
+        .qs-text h4 { font-size: 16px; font-weight: 700; }
+        .qs-text p { font-size: 12px; opacity: 0.8; }
+
+        /* --- 6. PRODUCTS SECTION --- */
+        .products { padding: 80px 10%; background: white; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { color: #005DAA; font-size: 36px; margin-bottom: 10px; }
+        .section-header p { color: #666; font-size: 16px; }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        .card {
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.3s;
+            border: 1px solid #eee;
+        }
+        .card:hover { transform: translateY(-10px); }
+        .card-img { height: 200px; background-size: cover; background-position: center; }
+        
+        /* Specific Images for Cards */
+        .img-personal { background-image: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=800'); }
+        .img-auto { background-image: url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800'); }
+        .img-home { background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800'); }
+
+        .card-body { padding: 25px; }
+        .card-tag { 
+            background: #e3f2fd; color: #005DAA; padding: 5px 10px; 
+            border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+        }
+        .card h3 { color: #333; margin: 15px 0 10px; font-size: 22px; }
+        .card p { color: #666; font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+        .card-link { color: #F7931E; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 5px; }
+
+        /* --- 7. CHATBOT WIDGET (Fixed Position) --- */
+        .chat-trigger {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #005DAA, #004a87);
+            border-radius: 50%;
+            box-shadow: 0 10px 25px rgba(0, 74, 135, 0.4);
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; z-index: 9999;
+            transition: transform 0.2s;
+            border: 2px solid white;
+        }
+        .chat-trigger:hover { transform: scale(1.1); }
+        .chat-trigger i { color: white; font-size: 32px; }
+        .notification-dot {
+            position: absolute; top: 0px; right: 0px; width: 18px; height: 18px;
+            background: #F7931E; border-radius: 50%; border: 2px solid white;
+        }
+
+        .chat-frame {
+            display: none; /* Hidden by default */
+            position: fixed;
+            bottom: 110px; right: 30px;
+            width: 400px; height: 600px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            z-index: 9998;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* --- 8. FOOTER --- */
+        footer { background: #1a1a1a; color: #888; padding: 60px 10% 20px; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px; }
+        .footer-col h4 { color: white; margin-bottom: 20px; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 10px; font-size: 14px; }
+        .footer-bottom { border-top: 1px solid #333; padding-top: 20px; text-align: center; font-size: 13px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <span><i class="fas fa-phone-alt"></i> 1-300-80-5454</span>
+        <span><i class="fas fa-map-marker-alt"></i> Branch Locator</span>
+        <span><i class="fas fa-globe"></i> EN / BM</span>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-university"></i> BANK<span>RAKYAT</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">Personal</a>
+            <a href="#">Business</a>
+            <a href="#">Co-op</a>
+	    <a href="shariah.html" style="color: #F7931E;">Shariah Centre</a>
+            <a href="#">About Us</a>
+        </div>
+        <a href="#" class="login-btn"><i class="fas fa-lock"></i> i-Rakyat Login</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Banking for the<br><strong>Modern Ummah.</strong></h1>
+            <p>Experience seamless, Shariah-compliant financing tailored for your lifestyle. From digital savings to dream homes.</p>
+            <a href="#" class="hero-btn">Explore Products</a>
+        </div>
+    </header>
+
+    <div class="quick-services">
+        <div class="qs-item">
+            <i class="fas fa-wallet qs-icon"></i>
+            <div class="qs-text"><h4>Accounts</h4><p>Open in 5 mins</p></div>
+        </div>
+        <div class="qs-item">
+            <i class="fas fa-credit-card qs-icon"></i>
+            <div class="qs-text"><h4>Cards</h4><p>Credit & Debit-i</p></div>
+        </div>
+        <div class="qs-item">
+            <i class="fas fa-calculator qs-icon"></i>
+            <div class="qs-text"><h4>Calculators</h4><p>Plan your finance</p></div>
+        </div>
+        <div class="qs-item">
+            <i class="fas fa-exchange-alt qs-icon"></i>
+            <div class="qs-text"><h4>Rates</h4><p>Current forex</p></div>
+        </div>
+    </div>
+
+    <section class="products">
+        <div class="section-header">
+            <h2>Our Featured Solutions</h2>
+            <p>Designed to help you achieve financial freedom based on Islamic values.</p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-img img-personal"></div>
+                <div class="card-body">
+                    <span class="card-tag">Financing</span>
+                    <h3>Personal Financing-i</h3>
+                    <p>Exclusive rates for civil servants and private sector. Apply now and get approval within 24 hours.</p>
+                    <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img img-auto"></div>
+                <div class="card-body">
+                    <span class="card-tag">Vehicle</span>
+                    <h3>Auto Financing-i</h3>
+                    <p>Drive your dream car with our competitive Hire Purchase (An-Naqlu) rates and flexible tenure.</p>
+                    <a href="#" class="card-link">Calculate Installment <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img img-home"></div>
+                <div class="card-body">
+                    <span class="card-tag">Mortgage</span>
+                    <h3>Home Financing-i</h3>
+                    <p>Zero entry cost packages to help you own your first home. Includes MRTT coverage options.</p>
+                    <a href="#" class="card-link">View Packages <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Bank Rakyat</h4>
+                <ul>
+                    <li>Corporate Info</li>
+                    <li>Board of Directors</li>
+                    <li>Sustainability</li>
+                    <li>Investor Relations</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li>Contact Centre</li>
+                    <li>Lost Card</li>
+                    <li>Fraud Awareness</li>
+                    <li>Whistleblowing</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li>Terms & Conditions</li>
+                    <li>Privacy Notice</li>
+                    <li>Security Policy</li>
+                    <li>Client Charter</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <ul>
+                    <li>Facebook</li>
+                    <li>Instagram</li>
+                    <li>LinkedIn</li>
+                    <li>Twitter</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 Bank Kerjasama Rakyat Malaysia Berhad. All Rights Reserved.
+        </div>
+    </footer>
+
+    <div class="chat-trigger" onclick="toggleChat()">
+        <i class="fas fa-robot"></i>
+        <div class="notification-dot"></div>
+    </div>
+
+    <div class="chat-frame" id="chatWindow">
+        <iframe src="http://localhost:8501/?embed=true"></iframe>
+    </div>
+
+    <script>
+        function toggleChat() {
+            const chat = document.getElementById('chatWindow');
+            if (chat.style.display === 'block') {
+                chat.style.display = 'none';
+            } else {
+                chat.style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+</html>
